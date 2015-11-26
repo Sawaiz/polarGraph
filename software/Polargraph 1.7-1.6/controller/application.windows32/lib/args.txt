@@ -1,3 +1,0 @@
-
-polargraphcontroller
-polargraphcontroller.jar,core.jar,diewald_CV_kit.jar,batikfont.jar,geomerative.jar,RXTXcomm.jar,serial.jar,controlP5.jar
