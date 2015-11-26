@@ -1,0 +1,127 @@
+Polargraph changelog.
+
+2013-07-20
+polargraph_server_polarshield: 1.7
+- Small fix for issue where pen is not lifted between lines on the norwegian pixel.
+- Added facility to use a 2.4 inch screen.  This is in the form of a pair of #defines
+in the main file, one of which should be commented out. The 2.2 inch screen is still 
+the default.
+
+2013-05-12
+polargraph_server_*: 1.66 (changed the version on mega back to being in sync)
+- Corrected bad casting on floats in previous version, ha.
+
+2013-05-11
+polagraph_server_a1, polargraph_server_polarshield: 1.65, polargraph_server_mega: 1.7a
+- Added casting to float when doing calculations that multiply longs.  
+
+2013-05-09
+polargraphcontroller: 1.6
+- Removed live webcam feature, it now draws from the loaded image (bitmap).
+Still a couple of quirks, but this is to get it out there.
+
+2013-05-05
+- Included WinVDIG 1.0.5 in the archive.
+
+polargraph_server_a1: 1.63
+- Fixed problem that meant that "currentlyRunning" was false, and so nothing
+moved.  Duh.
+- Moved copies of EEPROMAnything.h into sketch folders rather than have
+it as a library.  Just feels better that way.
+
+2013-04-30
+polargraph_server_mega: 1.7a
+- Contains beta stuff for a new swirling roving style.  It is the most infuriating
+thing I have ever witnessed.
+
+polargraph_server_a1: 1.62
+- HA! Version for Arduino UNO.  This loads on an UNO, but is too large for a
+Duemilanove.
+
+Controller: 1.5
+- Added a the swirl rove render buttons required to use the 1.7a firmware.
+
+2013-04-27
+Server: 1.62
+- Fixed significant bug that caused vector lines (move direct / C17) to be finished
+off with too much of a flourish.  It caused the drawing to get progressively higher 
+and higher on the surface.  So that's not cool.  I could not replicate the issue
+in polargraph_server_polarshield, only in polargraph_server_mega (using the adafruit
+motorshield), so I'm a bit puzzled about what it is.  Anyway, I have also applied the
+fix in p_s_polarshield.
+- Changed pen lift height test so it ends with the pen up (lifted), rather than down.
+
+Controller: 1.5
+- Can buttons to rotate live webcam image, preview live and processed video
+feed, flip video left to right.
+
+2013-04-21
+Server: 1.61
+- EEPROM_anything is the general purpose eeprom saver/loader routine.  It alerted 
+me that I was saving a float (which was four bytes) into an address that was
+only two.  So it wasn't reloading properly.  So the addresses have been 
+changed.  Note that you will need to upload your machine size again after loading this 
+firmware.
+
+Controller: 1.42
+- Now possible to set picture frame size even if there is no image loaded.
+
+2013-04-20
+Server: 1.6
+- Circular pixel (spiral) now working FAST.  Sorted out, and looking very
+beautiful.  The acceleration profile can cause some problems when drawing very tiny circles, but fix by reducing acceleration.
+
+Controller: 1.41
+- Renamed circular pixel to spiral pixel.
+
+2013-04-19
+- Source code now being kept in github rather than google's SVN system.
+https://github.com/euphy/polargraphcontroller
+https://github.com/euphy/polargraph_server_polarshield
+https://github.com/euphy/polargraph_server_mega
+
+Though the google project page will be kept for the time being, and
+downloads there will be maintained.
+
+Controller: 1.4
+- Added webcam feature to draw sketches from live video feed.  This
+requires the wonderful Diewald CV kit library, written by Thomas Diewald.
+This is available from http://thomasdiewald.com/processing/libraries/diewald_CV_kit/
+- Added vector line sorting.  Standard sorting is "none", but longest first,
+largest area first and centre-first are available internally.  Centre-first
+was designed for the live drawer to allow the most important features to be 
+drawn first, and background later.  Totally worked.
+- Keyboard shortcuts now require "ctrl+" to work.  So ctrl-c for console.  Ctrl-i
+for info, that kind of thing.  This is to prevent these things from being
+triggered why trying to type into text fields.  That was driving me mental.
+- Vector handle (for moving) is now in the centre of the shape, and resizing 
+happens from the centre too.
+- Return to home button.
+- Pen lift positions configurable, with "test range" function.
+
+Server: 1.5
+- Pen lift positions are now configurable and can be saved to eeprom. The 
+settings take the form of an up position and a down position.  The C13 and C14
+commands now take an optional second parameter that sets the position to go to.
+Setting it that way does NOT save to eeprom.
+Pen lift code contributed by Andreas (Televio - http://www.polargraph.co.uk/
+forum/?mingleforumaction=viewtopic&t=182), thanks!
+- Pen lift range test function, C45 takes an up, down position and a third 
+value to control if it is a test or a save.  If the value is 0, or missing,
+then a range test is performed (just a back-and-forth wiggle to the chosen 
+points) and the values set for that session.  IF the value is 1, then the
+value is set in EEPROM too.
+- Speed and acceleration can be saved to eeprom too now, with an optional
+1 (save) parameter added to the regular set speed commands.  eg C31,<speed>,1,END.
+- Comms is much faster.  I am a little suspicious of how safe it is, but I've 
+not seen it fail, so fingers crossed.
+- Fixed a problem introduced by a fix in v1.2x of AccelStepper, that made for
+ridiculous vector drawing.  This fix may not be backwards compatible with 
+older versions of AccelStepper (older than todays: 1.31).  But probably is.
+
+Unfortunately this version no longer fits on an Arduino Duemilanove.  I think it 
+might be a couple of extra features in accelstepper, but that might just be
+scapegoating the brilliant Mike MacAuley, and it's probably my rubbish.  It 
+might still fit on an UNO, but until I can test it, this distro contains only
+updates for the MEGA based machines.  UNO owners should continue to use the
+1.2x firmware, with an Accelstepper version 1.17.
